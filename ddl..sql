@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS antiguedades_campuslands;
 USE antiguedades_campuslands;
 
--- Tabla de Usuarios
+-- Crear tablas
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -11,13 +11,11 @@ CREATE TABLE usuarios (
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabla de Tipos de Usuario
 CREATE TABLE tipos_usuario (
     id_tipo_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Relación Usuario-Tipo
 CREATE TABLE usuario_tipo (
     id_usuario INT,
     id_tipo_usuario INT,
@@ -26,25 +24,21 @@ CREATE TABLE usuario_tipo (
     FOREIGN KEY (id_tipo_usuario) REFERENCES tipos_usuario(id_tipo_usuario)
 );
 
--- Tabla de Categorías
 CREATE TABLE categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Épocas
 CREATE TABLE epocas (
     id_epoca INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Estados de Conservación
 CREATE TABLE estados_conservacion (
     id_estado INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Antigüedades
 CREATE TABLE antiguedades (
     id_antiguedad INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -58,13 +52,11 @@ CREATE TABLE antiguedades (
     FOREIGN KEY (id_estado_conservacion) REFERENCES estados_conservacion(id_estado)
 );
 
--- Tabla de Estados de Antigüedad
 CREATE TABLE estados_antiguedad (
     id_estado_antiguedad INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Relación Antigüedad-Estado
 CREATE TABLE antiguedad_estado (
     id_antiguedad INT,
     id_estado_antiguedad INT,
@@ -74,7 +66,6 @@ CREATE TABLE antiguedad_estado (
     FOREIGN KEY (id_estado_antiguedad) REFERENCES estados_antiguedad(id_estado_antiguedad)
 );
 
--- Tabla de Fotos de Antigüedades
 CREATE TABLE fotos_antiguedades (
     id_foto INT AUTO_INCREMENT PRIMARY KEY,
     id_antiguedad INT,
@@ -82,7 +73,6 @@ CREATE TABLE fotos_antiguedades (
     FOREIGN KEY (id_antiguedad) REFERENCES antiguedades(id_antiguedad)
 );
 
--- Tabla de Propietarios de Antigüedades
 CREATE TABLE propietarios_antiguedades (
     id_antiguedad INT,
     id_propietario INT,
@@ -93,7 +83,6 @@ CREATE TABLE propietarios_antiguedades (
     FOREIGN KEY (id_propietario) REFERENCES usuarios(id_usuario)
 );
 
--- Tabla de Precios de Antigüedades
 CREATE TABLE precios_antiguedades (
     id_antiguedad INT,
     precio DECIMAL(10, 2) NOT NULL,
@@ -103,7 +92,6 @@ CREATE TABLE precios_antiguedades (
     FOREIGN KEY (id_antiguedad) REFERENCES antiguedades(id_antiguedad)
 );
 
--- Tabla de Transacciones
 CREATE TABLE transacciones (
     id_transaccion INT AUTO_INCREMENT PRIMARY KEY,
     id_antiguedad INT,
@@ -116,13 +104,11 @@ CREATE TABLE transacciones (
     FOREIGN KEY (id_comprador) REFERENCES usuarios(id_usuario)
 );
 
--- Tabla de Estados de Entrega
 CREATE TABLE estados_entrega (
     id_estado_entrega INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
--- Tabla de Relación Transacción-Estado de Entrega
 CREATE TABLE transaccion_estado_entrega (
     id_transaccion INT,
     id_estado_entrega INT,
@@ -132,7 +118,6 @@ CREATE TABLE transaccion_estado_entrega (
     FOREIGN KEY (id_estado_entrega) REFERENCES estados_entrega(id_estado_entrega)
 );
 
--- Tabla de Visitas a Antigüedades
 CREATE TABLE visitas_antiguedades (
     id_visita INT AUTO_INCREMENT PRIMARY KEY,
     id_antiguedad INT,
@@ -142,9 +127,4 @@ CREATE TABLE visitas_antiguedades (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
--- Índices para optimizar las consultas más frecuentes
-CREATE INDEX idx_antiguedad_estado ON antiguedad_estado(id_antiguedad, id_estado_antiguedad);
-CREATE INDEX idx_propietarios_antiguedades ON propietarios_antiguedades(id_antiguedad, fecha_inicio);
-CREATE INDEX idx_precios_antiguedades ON precios_antiguedades(id_antiguedad, fecha_inicio);
-CREATE INDEX idx_transacciones_fecha ON transacciones(fecha_venta);
-CREATE INDEX idx_visitas_fecha ON visitas_antiguedades(fecha_visita);
+
